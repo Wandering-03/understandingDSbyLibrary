@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Update Book</h1>
+    <h3>Book ID: {{book.id}}</h3>
+    <form method = "post">
+        <label>Title</label>
+        <input type="text" name="title" value="{{book.title}}" required><br><br>
+        <label>Author</label>
+        <input type="text" name="author" value="{{book.author}}" required><br><br>
+        <label>ISBN</label>
+        <input type=" text" name= "ISBN" value="{{book.ISBN}}" required><br><br>
+        <label>Publication Year</label> 
+        <input type="number" name="publication_year" value="{{book.publication_year}}" required><br><br>
+        <button type="submit">update</button>
+
+    </form>
+    <h3>{{message}}</h3>
+    <a href="/">BAck to library</a>
+    
+</body>
+</html>

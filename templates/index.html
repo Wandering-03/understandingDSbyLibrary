@@ -3,65 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title> University Library</title>
 </head>
+
 <body>
+    <h1>University Library management system</h1>
+    <h2>
+        search for a book
+    </h2>
+    <form method="GET" action="/search">
+        <input type="text" name="q" placeholder="Enter a book title or author" required>
+        <button type="submit">Search</button>
+    </form>
+      {%if search_results is defined%}
+         <h3>Search Results</h3>
+         {%if search_results%}
+          {%for book in search_results%}
+            <p>{{ book.title }} by {{ book.author }} ({{ book.publication_year }})</p>
+          {%endfor%}
+        {%else%}
+            <p>No results found.</p>
+        {%endif%}
+       {%endif%}
+
+    <h2>add a new book</h2>
+    <form method="POST">
+
+        <label for="book_id">Book ID:</label>
+        <input type="text" id="book_id" name="book_id" required><br><br>
+
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" required><br><br>
+
+        <label for="isbn">ISBN:</label>
+        <input type="text" id="isbn" name="isbn" required><br><br>
+
+        <label for="year">Publication Year:</label>
+        <input type="number" id="year" name="year" required><br><br>
+
+        <input type="submit" value="Add Book">
+
+    </form>
+
     
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
+    <h2>Binary Search Library</h2>
 
-<head>
-    <meta charset="UTF-8">
-    <title>University Library</title>
+    <form method="GET" action="/search_binary">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            background: #f4f4f4;
-        }
+        <input
+            type="text"
+            name="q"
+            placeholder="Enter an exact book title"
+            required
+        >
 
-        h1 {
-            color: #183153;
-        }
+        <button type="submit">Binary Search</button>
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
+    </form>
+      
 
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
+    {% if binary_result is defined %}
 
-        th {
-            background: #183153;
-            color: white;
-        }
-    </style>
-</head>
+        {% if binary_result %}
 
-<body>
+            <h3>Book found!</h3>
 
-    <h1>University Library Management System</h1>
+            <p>Title: {{ binary_result.title }}</p>
+            <p>Author: {{ binary_result.author }}</p>
+            <p>Year: {{ binary_result.publication_year }}</p>
 
-    <h2>Book Collection</h2>
+        {% else %}
 
-    <table>
+            <p>No results found.</p>
+ 
+        {% endif %}
+
+    {% endif %}
+
+
+
+    
+        <h3>{{ message }}</h3>
+        <hr>
+
+
+
+    <h2>Available Books</h2>
+    <table border="1", cellpadding="5", cellspacing="0">
         <tr>
             <th>Book ID</th>
             <th>Title</th>
             <th>Author</th>
             <th>ISBN</th>
-            <th>Year</th>
-            <th>Status</th>
+            <th>Publication Year</th>
+            <th>Availability</th>
+            <th>Actions</th>
         </tr>
-
         {% for book in books %}
         <tr>
             <td>{{ book.book_id }}</td>
@@ -69,18 +109,13 @@
             <td>{{ book.author }}</td>
             <td>{{ book.isbn }}</td>
             <td>{{ book.publication_year }}</td>
-
-            <td>
-                {% if book.is_available %}
-                    Available
-                {% else %}
-                    Borrowed
-                {% endif %}
-            </td>
+            <td>{{ "Available" if book.is_available else "Not Available" }}</td>
+            <td><a href="{{ url_for('update_book', book_id=book.book_id) }}">Update</a></td>
         </tr>
         {% endfor %}
 
     </table>
+    
 
 </body>
 </html>
